@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout/common :: head('Instargram')"></head>
+<body>
+<head th:replace="layout/common :: menu('menu')"></head>
+<main class="main">
+<div class="mains">
+    <h3>추천</h3>
+    <div class="containers">
+        <ul class="recommend-list">
+            <tr th:each="user : ${users}">
+                <li>
+                    <div class="recommend-friend-profiles">
+                        <a th:href="@{${'/user/profile?id=' + user.user.id}}"><img class="img-profiles pic" th:src="@{${'/profile_imgs/' + user.user.profileImgUrl}}" onerror="src='/img/default_profile.jpg'"></a>
+                        <div class="profile-text">
+                            <span class="userID point-span">
+                                <td th:text="${user.user.name}"></td>
+                            </span>
+                            <span class="sub-span">
+                                팔로워 <td th:text="${user.userFollowerCount}"></td>명
+                            </span>
+                        </div>
+                    </div>
+                    <button class="cta" th:if="!${user.loginUser} and !${user.follow}" th:onclick="|toggleSubscribe(${user.user.id}, this)|">팔로우</button>
+                    <button class="cta" th:if="!${user.loginUser} and ${user.follow}" th:onclick="|toggleSubscribe(${user.user.id}, this)|">언팔로우</button>
+                </li>
+            </tr>
+        </ul>
+    </div>
+    <footer th:replace="layout/common :: footer('footer')"></footer>
+</div>
+</main>
+<script src="/js/profile.js"></script>
+</body>
+</html>
